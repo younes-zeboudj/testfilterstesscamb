@@ -251,19 +251,19 @@ async function testFilter(filter) {
         for (const model of models) {
 
             let lockIndex = 0
-            for (let i = 0; i < 15 && 1 == 1; i++) {
+            for (let i = 0; i < 55 && 1 == 1; i++) {
                 if (!fs.existsSync(`lock${i}.lock`)) {
                     fs.writeFileSync(`lock${i}.lock`, '')
                     lockIndex = i
                     break;
                 }
 
-                if (i === 15) {
+                if (i === 55) {
                     await new Promise(resolve => setTimeout(resolve, 1000))
                     i = 0
                 }
             }
-            console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
+            // console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
 
 
             const text = await recognize(bfr, model).catch(e => {
