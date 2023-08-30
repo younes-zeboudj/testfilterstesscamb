@@ -59,8 +59,9 @@ const combinations = [];
 const { filterIndex, maincurrentCombination, allowedForks } = JSON.parse(process.argv[2]);
 
 let accuracyAll = []
-
+let N=0
 async function generateFilterPermutations(filterIndexlocal, currentCombination) {
+    console.log(`generating permutation N ${N++} ${filterIndexlocal} ${currentCombination}`);
     if (filterIndexlocal >= order.length) {
         const thresholdValues = []
 
@@ -193,7 +194,7 @@ generateMyFilterPermutations();
 
 async function testFilter(filter) {
     const completeNamesFilter = filter.split(/ +/).map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + '/' + filter.substring(2)).join(' ')
-    // console.log(`Testing ${completeNamesFilter} ${'...'}`);
+    console.log(`Testing ${completeNamesFilter} ${'...'}`);
 
     let parallel = 1
 
@@ -246,7 +247,6 @@ async function testFilter(filter) {
         if (!fs.existsSync(tmname)) return resolve(false)
         const bfr = fs.readFileSync(tmname).toString('base64')
 
-        // console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
         let ok = false
         for (const model of models) {
 
@@ -263,6 +263,7 @@ async function testFilter(filter) {
                     i = 0
                 }
             }
+            console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
 
 
             const text = await recognize(bfr, model).catch(e => {
@@ -299,7 +300,7 @@ async function testFilter(filter) {
     const results = await Promise.all(ps)
 
     const accuracy = results.filter(result => result).length / results.length
-    // console.log(`Accuracy: ${accuracy}`);
+    console.log(`Accuracy: ${accuracy}, ${completeNamesFilter} ${'...'}`);
 
 
     if (accuracy >= 0.6) {
