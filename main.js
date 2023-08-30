@@ -19,6 +19,12 @@ const filterRanges = {
         'step': 30,
         'default': 0
     },
+    "sepia": {
+        'min': -20,
+        'max': 20,
+        'step': 40,
+        'default': 0
+    },
     "vibrance": {
         'min': -20,
         'max': 20,
