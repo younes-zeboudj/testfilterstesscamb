@@ -68,7 +68,7 @@ function startAllChildProcesses() {
     ], { execArgv: ['--max-old-space-size=13000'] });
 
     child.on('message', (workerCombinations) => {
-        console.log(`Worker finished`);
+        console.log(`Worker finished ${workerCombinations}`);
         // combinations.push(workerCombinations);
         // console.log(`Total number of combinations: ${combinations.length}`);
         // fs.writeFileSync('./combinations.json', JSON.stringify(combinations));

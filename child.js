@@ -59,7 +59,7 @@ const combinations = [];
 
 const { filterIndex, maincurrentCombination, allowedForks } = JSON.parse(process.argv[2]);
 
-
+let accuracyAll=[]
 
 async function generateFilterPermutations(filterIndex, currentCombination) {
     if (filterIndex === order.length) {
@@ -138,7 +138,7 @@ function generateMyFilterPermutations() {
         if (allowedForks === 0) {
             const currentCombination = (maincurrentCombination ? maincurrentCombination + ' ' : '') + value;
             generateFilterPermutations(filterIndex+1, currentCombination);
-            process.send([]);
+            process.send(accuracyAll.slice(0, 10))
             // fs.writeFileSync(`combinations${Math.random().toString().replace(/\./, '')}.json`, '');
             // for (const combination of combinations) {
             //     fs.appendFileSync(`combinations${Math.random().toString().replace(/\./, '')}.json`, combination + '\n');
@@ -167,9 +167,11 @@ function generateMyFilterPermutations() {
                 child.on('message', (message) => {
                     // combinations.push(...message)
                     forked++
+                    console.log(`worker finished ${message}`);
 
                     if (forked === myvalues.length) {
-                        process.send([]);
+                        // process.send(['']);
+
                     }
                 });
             }
@@ -250,6 +252,7 @@ async function testFilter(filter) {
         console.log(`test done`);
         const accuracy = results.filter(result => result).length / results.length
         console.log(`Accuracy: ${accuracy}`);
+        accuracyAll.push(accuracy)
         if (accuracy >= 0.5) {
             console.log(completeNamesFilter, model, accuracy)
             if (!fs.existsSync('results.txt'))
