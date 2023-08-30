@@ -138,7 +138,7 @@ function generateMyFilterPermutations() {
         if (allowedForks === 0) {
             const currentCombination = (maincurrentCombination ? maincurrentCombination + ' ' : '') + value;
             generateFilterPermutations(filterIndex+1, currentCombination);
-            process.send(accuracyAll.slice(0, 10))
+            process.send(`acc : ${accuracyAll.slice(0, 10)}`)
             // fs.writeFileSync(`combinations${Math.random().toString().replace(/\./, '')}.json`, '');
             // for (const combination of combinations) {
             //     fs.appendFileSync(`combinations${Math.random().toString().replace(/\./, '')}.json`, combination + '\n');
@@ -170,7 +170,6 @@ function generateMyFilterPermutations() {
                     console.log(`worker finished ${message}`);
 
                     if (forked === myvalues.length) {
-                        // process.send(['']);
 
                     }
                 });
