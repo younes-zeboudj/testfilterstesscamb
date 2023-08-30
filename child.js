@@ -197,7 +197,7 @@ async function testFilter(filter) {
         const results = await Promise.all(ps)
         const accuracy = results.filter(result => result).length / results.length
 
-        if (accuracy > 0.7) {
+        if (accuracy >= 0.7) {
             const completeNamesFilter = filter.split(' ').map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + filter.substring(2)).join(' ')
             console.log(completeNamesFilter, model, accuracy)
             if (!fs.existsSync('results.txt'))
