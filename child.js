@@ -1,7 +1,7 @@
 const createWorker = require('tesseract.js').createWorker;
 const { Caman } = require('./caman.js');
 
-const order = ['saturation', 'brightness', 'hue', 'contrast', 'sharpen']
+const order = ['saturation', 'brightness', 'hue', 'contrast']
 
 const filterRanges = {
     'brightness': {
@@ -28,9 +28,9 @@ const filterRanges = {
     //     'step': 30,
     // },
     'hue': {
-        'min': 10,
+        'min': 0,
         'max': 100,
-        'step': 10,
+        'step': 20,
         'default': 0
     },
     // 'gamma': {
@@ -40,7 +40,7 @@ const filterRanges = {
     //     'toggle': true,
     // },
     'sharpen': {
-        'toggle': true
+        // 'toggle': true
     },
 
     'greyscale': {},
@@ -48,7 +48,7 @@ const filterRanges = {
     'threshold': {
         'min': 30,
         'max': 210,
-        'step': 20,
+        'step': 30,
         'default': 0
     },
 }
@@ -69,7 +69,7 @@ async function generateFilterPermutations(filterIndexlocal, currentCombination) 
         }
 
         for (const value of thresholdValues) {
-            const updatedCombination = currentCombination + ` gr bo ${value}`;
+            const updatedCombination = currentCombination + ` sh gr bo ${value}`;
             // combinations.push(updatedCombination);
 
             await testFilter(updatedCombination).catch(console.log)
