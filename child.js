@@ -106,7 +106,7 @@ async function generateFilterPermutations(filterIndex, currentCombination) {
         for (const value of filterValues) {
             const updatedCombination = currentCombination + (currentCombination && value ? ' ' : '') + value;
 
-            generateFilterPermutations(i + 1, updatedCombination);
+            await generateFilterPermutations(i + 1, updatedCombination);
         }
     }
 }
@@ -116,7 +116,7 @@ const { fork } = require('child_process');
 
 
 const fs = require('fs');
-function generateMyFilterPermutations() {
+async function generateMyFilterPermutations() {
     const filter = filterRanges[order[filterIndex]];
     const filterValues = filter.values || [];
 
@@ -137,7 +137,7 @@ function generateMyFilterPermutations() {
 
         if (allowedForks === 0) {
             const currentCombination = (maincurrentCombination ? maincurrentCombination + ' ' : '') + value;
-            generateFilterPermutations(filterIndex+1, currentCombination);
+            await generateFilterPermutations(filterIndex+1, currentCombination);
             process.send(`acc : ${accuracyAll.slice(0, 10)}`)
             // fs.writeFileSync(`combinations${Math.random().toString().replace(/\./, '')}.json`, '');
             // for (const combination of combinations) {
