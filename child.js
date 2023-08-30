@@ -230,7 +230,7 @@ async function testFilter(filter) {
                                 try {
                                     this[f[0]]()
                                 } catch (error) {
-                                    console.log(`error ${f[0]}`);
+                                    console.log(`error ${f[0]} : ${completeNamesFilter}`);
                                 }
                             else
                                 this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
