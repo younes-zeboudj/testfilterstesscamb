@@ -1,29 +1,29 @@
-const order = ['saturation', 'brightness', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
+const order = ['saturation', 'brightness', 'contrast',  'hue', 'gamma', 'sharpen']
+
 const filterRanges = {
     'brightness': {
         'min': -15,
-        'max': 30,
+        'max': 15,
         'step': 30,
         'default': 0
     },
     'saturation': {
-        'min': -15,
+        'min': -20,
+        'max': 20,
+        'step': 40,
+        'default': 0
+    },
+    'contrast': {
+        'min': -30,
         'max': 30,
         'step': 15,
         'default': 0
     },
-    'contrast': {
-        'min': -60,
-        'max': 60,
-        'step': 20,
-        'default': 0
-    },
-    'exposure': {
-        'min': -25,
-        'max': 25,
-        'step': 50,
-        'toggle': true,
-    },
+    // 'exposure': {
+    //     'min': -15,
+    //     'max': 15,
+    //     'step': 30,
+    // },
     'hue': {
         'min': 10,
         'max': 100,
@@ -33,7 +33,7 @@ const filterRanges = {
     'gamma': {
         'min': 1,
         'max': 2,
-        'step': 0.3,
+        'step': 1,
         'toggle': true,
     },
     'sharpen': {
@@ -43,9 +43,9 @@ const filterRanges = {
     'greyscale': {},
     'boxBlur': {},
     'threshold': {
-        'min': 40,
-        'max': 200,
-        'step': 20,
+        'min': 30,
+        'max': 210,
+        'step': 10,
         'default': 0
     },
 }
