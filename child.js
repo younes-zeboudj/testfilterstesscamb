@@ -177,13 +177,13 @@ function generateMyFilterPermutations() {
     }
 }
 
+const models = ['digits_comma', 'engBest', 'Fraktur_50000000.334_450937']
 
 
 generateMyFilterPermutations();
 
 
 
-const models = ['digits_comma', 'engBest', 'Fraktur_50000000.334_450937']
 
 async function testFilter(filter) {
     let parallel = 3
