@@ -20,11 +20,17 @@ const filterRanges = {
         'step': 30,
         'default': 0
     },
-    // 'exposure': {
-    //     'min': -15,
-    //     'max': 15,
-    //     'step': 30,
-    // },
+    "vibrance": {
+        'min': -20,
+        'max': 20,
+        'step': 40,
+        'default': 0
+    },
+    'exposure': {
+        'min': -15,
+        'max': 15,
+        'step': 30,
+    },
     'hue': {
         'min': 0,
         'max': 100,
