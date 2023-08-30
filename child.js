@@ -23,10 +23,9 @@ const filterRanges = {
         'default': 0
     },
     'exposure': {
-        'min': -25,
-        'max': 25,
-        'step': 25,
-        'toggle': true,
+        'min': -15,
+        'max': 15,
+        'step': 15,
     },
     'hue': {
         'min': 10,
@@ -91,6 +90,10 @@ async function generateFilterPermutations(filterIndex, currentCombination) {
                     filterValues.push(``);
                 }
                 for (let value = filter.min; value <= filter.max; value += filter.step) {
+                    if (value === 0) {
+                        filterValues.push(``);
+                        continue;
+                    }
                     filterValues.push(`${filterName.substring(0, 2)}${value}`);
                 }
 
@@ -119,7 +122,7 @@ const { fork } = require('child_process');
 const fs = require('fs');
 async function generateMyFilterPermutations() {
     const filter = filterRanges[order[filterIndex]];
-    if(!filter) {
+    if (!filter) {
         console.log(`filter ${filterIndex} ${order[filterIndex]} not found`);
         return
     }
@@ -127,6 +130,10 @@ async function generateMyFilterPermutations() {
 
     if (filter.min !== undefined && filter.max !== undefined && filter.step !== undefined) {
         for (let value = filter.min; value <= filter.max; value += filter.step) {
+            if (value === 0) {
+                filterValues.push(``);
+                continue;
+            }
             filterValues.push(`${order[filterIndex].substring(0, 2)}${value}`);
         }
     } else {
