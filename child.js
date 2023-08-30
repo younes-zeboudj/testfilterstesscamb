@@ -189,14 +189,14 @@ generateMyFilterPermutations();
 
 async function testFilter(filter) {
     const completeNamesFilter = filter.split(' ').map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + '/' + filter.substring(2)).join(' ')
+        console.log(`Testing ${completeNamesFilter} ${'...'}`);
 
     let parallel = 3
     for (const model of models) {
-        // console.log(`Testing ${completeNamesFilter} ${model}`);
         const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
             let lockIndex = 0
             while (1 == 1) {
-                for (let i = 0; i < 17; i++) {
+                for (let i = 0; i < 50; i++) {
                     if (!fs.existsSync(`lock${i}.lock`)) {
                         fs.writeFileSync(`lock${i}.lock`, '')
                         lockIndex = i
