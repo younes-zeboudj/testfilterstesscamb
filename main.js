@@ -61,7 +61,7 @@ function startAllChildProcesses() {
     const child = fork('./child.js', [
         JSON.stringify({
             filterIndex: 0,
-            allowedForks: 2
+            allowedForks: 1
         })
     ], { execArgv: ['--max-old-space-size=13000'] });
 
