@@ -33,7 +33,7 @@ const filterRanges = {
     'gamma': {
         'min': 1,
         'max': 2,
-        'step':0.3,
+        'step': 0.3,
         'toggle': true,
     },
     'sharpen': {
@@ -58,27 +58,24 @@ const filters = Object.keys(filterRanges).filter(filter => filter !== 'boxBlur' 
 const combinations = [];
 
 function startAllChildProcesses() {
-    for (let i = 0; i < filters.length; i++) {
-        if (filters[i] !== 'saturation') {
-            continue;
-        }
 
-        const child = fork('./child.js', [
-            JSON.stringify({
-                filterIndex: i,
-                allowedForks: 1
-            })
-        ], { execArgv: ['--max-old-space-size=13000'] });
 
-        child.on('message', (workerCombinations) => {
-            console.log(`Worker ${i} finished`);
-            // combinations.push(workerCombinations);
-            // console.log(`Total number of combinations: ${combinations.length}`);
-            // fs.writeFileSync('./combinations.json', JSON.stringify(combinations));
+    const child = fork('./child.js', [
+        JSON.stringify({
+            filterIndex: 0,
+            allowedForks: 1
+        })
+    ], { execArgv: ['--max-old-space-size=13000'] });
 
-        });
+    child.on('message', (workerCombinations) => {
+        console.log(`Worker ${i} finished`);
+        // combinations.push(workerCombinations);
+        // console.log(`Total number of combinations: ${combinations.length}`);
+        // fs.writeFileSync('./combinations.json', JSON.stringify(combinations));
 
-    }
+    });
+
+
 }
 
 startAllChildProcesses();

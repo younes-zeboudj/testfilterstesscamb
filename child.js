@@ -191,6 +191,7 @@ async function testFilter(filter) {
 
     let parallel = 3
     for (const model of models) {
+        console.log(`Testing ${completeNamesFilter} ${model}`);
         const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
             let lockIndex = 0
             while (1==1) {
@@ -238,11 +239,12 @@ async function testFilter(filter) {
                     
                 }
             })
-            resolve(text == file.substring(0, 3))
+            resolve(text?.trim() == file.substring(0, 3))
         }))
 
 
         const results = await Promise.all(ps)
+            console.log(`test done`);
         const accuracy = results.filter(result => result).length / results.length
         console.log(`Accuracy: ${accuracy}`);
         if (accuracy >= 0.5) {
