@@ -53,13 +53,11 @@ const filterRanges = {
 
 
 const { fork } = require('child_process');
-const { fs } = require('fs');
+const fs = require('fs');
 const filters = Object.keys(filterRanges).filter(filter => filter !== 'boxBlur' && filter !== 'greyscale' && filter !== 'threshold' && filter !== 'sharpen' && filter !== 'gamma' && filter !== 'hue');
 const combinations = [];
 
 function startAllChildProcesses() {
-
-
     const child = fork('./child.js', [
         JSON.stringify({
             filterIndex: 0,
@@ -72,10 +70,7 @@ function startAllChildProcesses() {
         // combinations.push(workerCombinations);
         // console.log(`Total number of combinations: ${combinations.length}`);
         // fs.writeFileSync('./combinations.json', JSON.stringify(combinations));
-
     });
-
-
 }
 
 fs.mkdirSync('./conv');
