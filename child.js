@@ -202,7 +202,7 @@ async function testFilter(filter) {
                 break;
             }
 
-            if (i === 16) {
+            if (i === 50) {
                 await new Promise(resolve => setTimeout(resolve, 1000))
                 i = 0
             }
@@ -288,7 +288,7 @@ async function testFilter(filter) {
 
 
     if (accuracy >= 0.5) {
-        console.log(completeNamesFilter, model, accuracy)
+        console.log(completeNamesFilter, accuracy)
         if (!fs.existsSync('results.txt'))
             fs.appendFileSync('results.txt', `${completeNamesFilter} ${model} ${accuracy}\n`)
     }
