@@ -219,6 +219,7 @@ async function testFilter(filter) {
 
             await new Promise(resolve => {
                 Caman(`./${file}`, function () {
+                    console.log(`read file ${file} ${'...'}`);
                     for (const f of filters) {
                         if (f[1] === '')
                             if (f[0])
@@ -229,6 +230,8 @@ async function testFilter(filter) {
                         else
                             this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
                     }
+
+                    console.log(`writing file ${tmname} ${'...'}`);
 
                     this.render(function () {
                         this.save(tmname)
