@@ -1,4 +1,4 @@
-const order = ['saturation', 'brightness', 'contrast',  'hue', 'gamma', 'sharpen']
+const order = ['saturation', 'brightness', 'hue', 'gamma' , 'contrast', 'sharpen']
 
 const filterRanges = {
     'brightness': {
