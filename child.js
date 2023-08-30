@@ -119,6 +119,10 @@ const { fork } = require('child_process');
 const fs = require('fs');
 async function generateMyFilterPermutations() {
     const filter = filterRanges[order[filterIndex]];
+    if(!filter) {
+        console.log(`filter ${filterIndex} ${order[filterIndex]} not found`);
+        return
+    }
     const filterValues = filter.values || [];
 
     if (filter.min !== undefined && filter.max !== undefined && filter.step !== undefined) {
@@ -148,7 +152,6 @@ async function generateMyFilterPermutations() {
             // testFilter(currentCombination)
 
         } else {
-
             const child = fork('./child.js', [
                 JSON.stringify({
                     filterIndex: filterIndex + 1,
@@ -166,6 +169,7 @@ async function generateMyFilterPermutations() {
 
                 // }
             });
+            await new Promise(resolve => setTimeout(resolve, 5000))
 
         }
 
