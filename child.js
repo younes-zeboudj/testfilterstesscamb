@@ -206,7 +206,10 @@ async function testFilter(filter) {
             await new Promise(resolve => setTimeout(resolve, 1000))
         }
         parallel++
-        if (done) return resolve(false)
+        if (done) {
+            parallel--
+            return resolve(false)
+        }
 
         const filters = completeNamesFilter.split(/ +/).map(ff => {
             return [ff.split('/')[0], ff.split('/')[1]]
