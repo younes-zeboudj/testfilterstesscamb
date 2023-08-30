@@ -90,8 +90,8 @@
   if (typeof exports !== "undefined" && exports !== null) {
     Root = exports;
     Canvas = require('canvas');
-    Image = Canvas.Image;
     fs = require('fs');
+    Image = Canvas.Image;
   } else {
     Root = window;
   }
@@ -271,7 +271,7 @@
       this.image = new Image();
       this.image.onload = function () {
         Log.debug("Image loaded. Width = " + (_this.imageWidth()) + ", Height = " + (_this.imageHeight()));
-        _this.canvas = new Canvas(_this.imageWidth(), _this.imageHeight());
+        _this.canvas = new Canvas.Canvas(_this.imageWidth(), _this.imageHeight());
         return _this.finishInit();
       };
       this.image.onerror = function (err) {
@@ -1385,7 +1385,7 @@
         opacity: 1.0
       };
       this.layerID = Util.uniqid.get();
-      this.canvas = typeof exports !== "undefined" && exports !== null ? new Canvas() : document.createElement('canvas');
+      this.canvas = typeof exports !== "undefined" && exports !== null ? new Canvas.Canvas() : document.createElement('canvas');
       this.canvas.width = this.c.dimensions.width;
       this.canvas.height = this.c.dimensions.height;
       this.context = this.canvas.getContext('2d');
@@ -2273,7 +2273,7 @@
       y = 0;
     }
     if (typeof exports !== "undefined" && exports !== null) {
-      canvas = new Canvas(width, height);
+      canvas = new Canvas.Canvas(width, height);
     } else {
       canvas = document.createElement('canvas');
       Util.copyAttributes(this.canvas, canvas);
@@ -2305,7 +2305,7 @@
       newDims.height = this.canvas.height * newDims.width / this.canvas.width;
     }
     if (typeof exports !== "undefined" && exports !== null) {
-      canvas = new Canvas(newDims.width, newDims.height);
+      canvas = new Canvas.Canvas(newDims.width, newDims.height);
     } else {
       canvas = document.createElement('canvas');
       Util.copyAttributes(this.canvas, canvas);
@@ -2565,7 +2565,7 @@
     shg_table = [9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17, 17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24];
     getLinearGradientMap = function (width, height, centerX, centerY, angle, length, mirrored) {
       var cnv, context, gradient, x1, x2, y1, y2;
-      cnv = typeof exports !== "undefined" && exports !== null ? new Canvas() : document.createElement('canvas');
+      cnv = typeof exports !== "undefined" && exports !== null ? new Canvas.Canvas() : document.createElement('canvas');
       cnv.width = width;
       cnv.height = height;
       x1 = centerX + Math.cos(angle) * length * 0.5;
@@ -2588,7 +2588,7 @@
     };
     getRadialGradientMap = function (width, height, centerX, centerY, radius1, radius2) {
       var cnv, context, gradient;
-      cnv = typeof exports !== "undefined" && exports !== null ? new Canvas() : document.createElement('canvas');
+      cnv = typeof exports !== "undefined" && exports !== null ? new Canvas.Canvas() : document.createElement('canvas');
       cnv.width = width;
       cnv.height = height;
       context = cnv.getContext("2d");
