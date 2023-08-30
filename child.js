@@ -73,7 +73,7 @@ function generateFilterPermutations(filterIndex, currentCombination) {
             const updatedCombination = currentCombination + ` gr bo ${value}`;
             // combinations.push(updatedCombination);
 
-            testFilter(updatedCombination)
+            testFilter(updatedCombination).catch(console.log)
         }
 
         return;
