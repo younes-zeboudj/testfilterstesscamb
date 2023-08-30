@@ -223,10 +223,11 @@ async function testFilter(filter) {
                     for (const f of filters) {
                         if (f[1] === '')
                             if (f[0])
+                             try {
                                 this[f[0]]()
-                            else {
-                                console.log(`!!! ${f[0]} is not a valid filter`);
-                            }
+                             } catch (error) {
+                                console.log(`error ${f[0]}`);
+                             }
                         else
                             this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
                     }
