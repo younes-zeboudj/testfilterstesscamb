@@ -237,7 +237,7 @@ async function testFilter(filter) {
 
         })
 
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        await new Promise(resolve => setTimeout(resolve, 2500))
         if (!fs.existsSync(tmname)) return resolve(false)
         const bfr = fs.readFileSync(tmname).toString('base64')
 
