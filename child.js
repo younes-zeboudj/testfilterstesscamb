@@ -195,9 +195,14 @@ async function testFilter(filter) {
     const completeNamesFilter = filter.split(/ +/).map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + '/' + filter.substring(2)).join(' ')
     // console.log(`Testing ${completeNamesFilter} ${'...'}`);
 
-    let parallel = 3
+    let parallel = 1
+
     const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
 
+        while (parallel > 1) {
+            await new Promise(resolve => setTimeout(resolve, 1000))
+        }
+        parallel++
 
         const filters = completeNamesFilter.split(/ +/).map(ff => {
             return [ff.split('/')[0], ff.split('/')[1]]
@@ -286,6 +291,7 @@ async function testFilter(filter) {
 
         }
         resolve(ok)
+        parallel--
 
     }))
 
