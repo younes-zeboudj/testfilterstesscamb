@@ -59,7 +59,7 @@ const combinations = [];
 const { filterIndex, maincurrentCombination, allowedForks } = JSON.parse(process.argv[2]);
 
 let accuracyAll = []
-let N=0
+let N = 0
 async function generateFilterPermutations(filterIndexlocal, currentCombination) {
     console.log(`generating permutation N ${N++} ${filterIndexlocal} ${currentCombination}`);
     if (filterIndexlocal >= order.length) {
@@ -166,7 +166,7 @@ async function generateMyFilterPermutations() {
                     maincurrentCombination: (maincurrentCombination ? maincurrentCombination + ' ' : '') + value,
                     allowedForks: allowedForks - 1
                 })
-            ], { execArgv: ['--max-old-space-size=500000'], detached:false })
+            ], { execArgv: ['--max-old-space-size=500000'], detached: false })
 
             // child.on('message', (message) => {
             //     // combinations.push(...message)
@@ -197,13 +197,16 @@ async function testFilter(filter) {
     console.log(`Testing ${completeNamesFilter} ${'...'}`);
 
     let parallel = 1
-
+    const nfiles = fs.readdirSync('./').filter(file => file.includes('jpeg')).length
+    let done= false
+    let fails= 0
     const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
 
         while (parallel > 1) {
             await new Promise(resolve => setTimeout(resolve, 1000))
         }
         parallel++
+        if (done) return resolve(false)
 
         const filters = completeNamesFilter.split(/ +/).map(ff => {
             return [ff.split('/')[0], ff.split('/')[1]]
@@ -249,6 +252,7 @@ async function testFilter(filter) {
 
         let ok = false
         for (const model of models) {
+            
 
             let lockIndex = 0
             for (let i = 0; i < 55 && 1 == 1; i++) {
@@ -291,8 +295,11 @@ async function testFilter(filter) {
         } catch (error) {
 
         }
+        if (!ok) fails++
+        if (fails >= nfiles / 2) done= true
         resolve(ok)
         parallel--
+
 
     }))
 
@@ -300,11 +307,11 @@ async function testFilter(filter) {
     const results = await Promise.all(ps)
 
     const accuracy = results.filter(result => result).length / results.length
-    console.log(`Accuracy: ${accuracy}, ${completeNamesFilter} ${'...'}`);
+    console.log(`Accuracy: ${accuracy}, ${completeNamesFilter} ${'...'}: DONE? ${done}`);
 
 
     if (accuracy >= 0.6) {
-        console.log(completeNamesFilter, accuracy)
+        // console.log(completeNamesFilter, accuracy)
         if (!fs.existsSync('results.txt')) fs.writeFileSync('results.txt', '')
         fs.appendFileSync('results.txt', `${completeNamesFilter} ${accuracy}\n`)
     }
