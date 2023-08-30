@@ -1,5 +1,5 @@
 
-const order = ['saturation', 'brightness', 'hue', 'contrast']
+const order = ['saturation', 'brightness', 'hue', 'gamma', 'contrast']
 
 const filterRanges = {
     'brightness': {
@@ -32,11 +32,11 @@ const filterRanges = {
         'default': 0
     },
     // 'gamma': {
-    //     'min': 1,
-    //     'max': 2,
-    //     'step': 1,
-    //     'toggle': true,
-    // },
+        'min': 1,
+        'max': 2,
+        'step': 1,
+        'toggle': true,
+    },
     'sharpen': {
         // 'toggle': true
     },

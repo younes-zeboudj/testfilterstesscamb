@@ -1,7 +1,7 @@
 const createWorker = require('tesseract.js').createWorker;
 const { Caman } = require('./caman.js');
 
-const order = ['saturation', 'brightness', 'hue', 'contrast']
+const order = ['saturation', 'brightness', 'hue', 'gamma', 'contrast']
 
 const filterRanges = {
     'brightness': {
@@ -33,12 +33,12 @@ const filterRanges = {
         'step': 20,
         'default': 0
     },
-    // 'gamma': {
-    //     'min': 1,
-    //     'max': 2,
-    //     'step': 1,
-    //     'toggle': true,
-    // },
+    'gamma': {
+        'min': 1,
+        'max': 2,
+        'step': 1,
+        'toggle': true,
+    },
     'sharpen': {
         // 'toggle': true
     },
@@ -202,7 +202,7 @@ async function testFilter(filter) {
     let fails= 0
     const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
 
-        while (parallel > 6) {
+        while (parallel > 25) {
             await new Promise(resolve => setTimeout(resolve, 1000))
         }
         parallel++
