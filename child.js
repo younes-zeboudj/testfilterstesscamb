@@ -217,19 +217,22 @@ async function testFilter(filter) {
 
             // console.log(`Testing ${completeNamesFilter} Converting file ${file} to ${tmname} ${'...'}`);
 
-            Caman(`./${file}`, function () {
-                for (const f of filters) {
-                    if (f[1] === '')
-                        this[f[0]]()
-                    else
-                        this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
-                }
+            await new Promise(resolve => {
+                Caman(`./${file}`, function () {
+                    for (const f of filters) {
+                        if (f[1] === '')
+                            this[f[0]]()
+                        else
+                            this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
+                    }
 
-                this.render(function () {
-                    this.save(tmname)
+                    this.render(function () {
+                        this.save(tmname)
+                        resolve()
+                    })
                 })
-            })
 
+            })
             const bfr = fs.readFileSync(tmname)
 
             // console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
