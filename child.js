@@ -1,42 +1,42 @@
 const createWorker = require('tesseract.js').createWorker;
 
-const order = ['brightness', 'contrast', 'saturation', 'exposure', 'hue', 'gamma', 'sharpen']
+const order = ['saturation', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
 
 const filterRanges = {
-    'brightness': {
-        'min': -50,
-        'max': 50,
+    // 'brightness': {
+    //     'min': -10,
+    //     'max': 10,
+    //     'step': 10,
+    //     'default': 0
+    // },
+    'saturation': {
+        'min': -15,
+        'max': 30,
         'step': 15,
         'default': 0
     },
     'contrast': {
-        'min': -70,
-        'max': 70,
-        'step': 10,
-        'default': 0
-    },
-    'saturation': {
-        'min': -45,
-        'max': 45,
-        'step': 10,
+        'min': -60,
+        'max': 60,
+        'step': 15,
         'default': 0
     },
     'exposure': {
-        'min': -50,
-        'max': 50,
-        'step': 20,
+        'min': -25,
+        'max': 25,
+        'step': 25,
         'toggle': true,
     },
     'hue': {
-        'min': 5,
+        'min': 0,
         'max': 100,
-        'step': 5,
+        'step': 10,
         'default': 0
     },
     'gamma': {
         'min': 1,
         'max': 3,
-        'step': 1,
+        'step': 2,
         'toggle': true,
     },
     'sharpen': {
@@ -48,7 +48,7 @@ const filterRanges = {
     'threshold': {
         'min': 30,
         'max': 200,
-        'step': 6,
+        'step': 10,
         'default': 0
     },
 }
@@ -186,10 +186,14 @@ generateMyFilterPermutations();
 const models = ['digits_comma', 'engBest', 'Fraktur_50000000.334_450937']
 
 async function testFilter(filter) {
+    let parallel = 3
     for (const model of models) {
         const ps = fs.readdirSync('./images').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
+            while (parallel <= 0) {
+                await new Promise(resolve => setTimeout(resolve, 1000))
+            }
             const bfr = fs.readFileSync(`./images/${file}`)
-            const text = await recognize(bfr, model)
+            const text = await recognize(bfr, model).finally(() => parallel++)
             resolve(text == file.substring(0, 3))
         }))
 
