@@ -165,7 +165,7 @@ async function generateMyFilterPermutations() {
                     maincurrentCombination: (maincurrentCombination ? maincurrentCombination + ' ' : '') + value,
                     allowedForks: allowedForks - 1
                 })
-            ], { execArgv: ['--max-old-space-size=50000'] }).unref()
+            ], { execArgv: ['--max-old-space-size=500000'] }).unref()
 
             // child.on('message', (message) => {
             //     // combinations.push(...message)
@@ -183,7 +183,7 @@ async function generateMyFilterPermutations() {
     }
 }
 
-const models = ['digits_comma', 'Fraktur_50000000.334_450937']
+const models = ['digits_comma']//, 'Fraktur_50000000.334_450937']
 
 
 generateMyFilterPermutations();
