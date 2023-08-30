@@ -192,7 +192,7 @@ generateMyFilterPermutations();
 
 
 async function testFilter(filter) {
-    const completeNamesFilter = filter.split(' ').map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + '/' + filter.substring(2)).join(' ')
+    const completeNamesFilter = filter.split(/ +/).map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + '/' + filter.substring(2)).join(' ')
     // console.log(`Testing ${completeNamesFilter} ${'...'}`);
 
     let parallel = 3
