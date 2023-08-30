@@ -122,7 +122,7 @@ function generateMyFilterPermutations() {
 
     if (filter.min !== undefined && filter.max !== undefined && filter.step !== undefined) {
         for (let value = filter.min; value <= filter.max; value += filter.step) {
-            filterValues.push(`${order[filterIndex]}(${value})`);
+            filterValues.push(`${order[filterIndex].substring(0, 2)}${value}`);
         }
     } else {
         if (filter.toggle) {
@@ -216,7 +216,7 @@ async function testFilter(filter) {
                     if (f[1] === '')
                         this[f[0]]()
                     else
-                        this[f[0]](parseInt(f[1]))
+                        this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
                 }
 
                 this.render(function () {
