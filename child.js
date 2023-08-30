@@ -61,7 +61,7 @@ const { filterIndex, maincurrentCombination, allowedForks } = JSON.parse(process
 
 
 
-function generateFilterPermutations(filterIndex, currentCombination) {
+async function generateFilterPermutations(filterIndex, currentCombination) {
     if (filterIndex === order.length) {
         const thresholdValues = []
 
@@ -73,7 +73,7 @@ function generateFilterPermutations(filterIndex, currentCombination) {
             const updatedCombination = currentCombination + ` gr bo ${value}`;
             // combinations.push(updatedCombination);
 
-            testFilter(updatedCombination).catch(console.log)
+            await testFilter(updatedCombination).catch(console.log)
         }
 
         return;
