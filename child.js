@@ -165,7 +165,7 @@ async function generateMyFilterPermutations() {
                     maincurrentCombination: (maincurrentCombination ? maincurrentCombination + ' ' : '') + value,
                     allowedForks: allowedForks - 1
                 })
-            ], { execArgv: ['--max-old-space-size=500000'], detached:true }).unref()
+            ], { execArgv: ['--max-old-space-size=500000'], detached:false })
 
             // child.on('message', (message) => {
             //     // combinations.push(...message)
