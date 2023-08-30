@@ -167,15 +167,15 @@ async function generateMyFilterPermutations() {
                 })
             ], { execArgv: ['--max-old-space-size=50000'] }).unref()
 
-            child.on('message', (message) => {
-                // combinations.push(...message)
-                // forked++
-                // console.log(`worker finished ${message}`);
+            // child.on('message', (message) => {
+            //     // combinations.push(...message)
+            //     // forked++
+            //     // console.log(`worker finished ${message}`);
 
-                // if (forked === myvalues.length) {
+            //     // if (forked === myvalues.length) {
 
-                // }
-            });
+            //     // }
+            // });
             await new Promise(resolve => setTimeout(resolve, 5000))
 
         }
@@ -298,8 +298,8 @@ async function testFilter(filter) {
 
     if (accuracy >= 0.6) {
         console.log(completeNamesFilter, accuracy)
-        // if (!fs.existsSync('results.txt'))
-        //     fs.appendFileSync('results.txt', `${completeNamesFilter} ${model} ${accuracy}\n`)
+        if (!fs.existsSync('results.txt')) fs.writeFileSync('results.txt', '')
+        fs.appendFileSync('results.txt', `${completeNamesFilter} ${accuracy}\n`)
     }
 }
 

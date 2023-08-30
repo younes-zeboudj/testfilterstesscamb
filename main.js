@@ -65,12 +65,12 @@ function startAllChildProcesses() {
         })
     ], { execArgv: ['--max-old-space-size=50000'] }).unref()
 
-    child.on('message', (workerCombinations) => {
-        // console.log(`Worker finished : ${workerCombinations}`);
-        // combinations.push(workerCombinations);
-        // console.log(`Total number of combinations: ${combinations.length}`);
-        // fs.writeFileSync('./combinations.json', JSON.stringify(combinations));
-    });
+    // child.on('message', (workerCombinations) => {
+    //     // console.log(`Worker finished : ${workerCombinations}`);
+    //     // combinations.push(workerCombinations);
+    //     // console.log(`Total number of combinations: ${combinations.length}`);
+    //     // fs.writeFileSync('./combinations.json', JSON.stringify(combinations));
+    // });
 }
 
 if(!fs.existsSync('./conv'))
