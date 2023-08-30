@@ -76,6 +76,10 @@ function startAllChildProcesses() {
 if(!fs.existsSync('./conv'))
 fs.mkdirSync('./conv');
 
-execSync('rm lock*')
+try {
+    execSync('rm lock*')    
+} catch (error) {
+    
+}
 
 startAllChildProcesses();
