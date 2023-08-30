@@ -167,7 +167,7 @@ async function generateMyFilterPermutations() {
                 child.on('message', (message) => {
                     // combinations.push(...message)
                     forked++
-                    console.log(`worker finished ${message}`);
+                    // console.log(`worker finished ${message}`);
 
                     if (forked === myvalues.length) {
 
@@ -189,7 +189,7 @@ generateMyFilterPermutations();
 
 async function testFilter(filter) {
     const completeNamesFilter = filter.split(' ').map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + '/' + filter.substring(2)).join(' ')
-    console.log(`Testing ${completeNamesFilter} ${'...'}`);
+    // console.log(`Testing ${completeNamesFilter} ${'...'}`);
 
     let parallel = 3
     for (const model of models) {
@@ -276,7 +276,7 @@ async function testFilter(filter) {
         const results = await Promise.all(ps)
         console.log(`test done`);
         const accuracy = results.filter(result => result).length / results.length
-        console.log(`Accuracy: ${accuracy}`);
+        // console.log(`Accuracy: ${accuracy}`);
         accuracyAll.push(accuracy)
         if (accuracy >= 0.5) {
             console.log(completeNamesFilter, model, accuracy)
