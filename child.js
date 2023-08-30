@@ -252,7 +252,7 @@ async function testFilter(filter) {
 
         await new Promise(resolve => setTimeout(resolve, 1000))
         if (!fs.existsSync(tmname)) return resolve(false)
-        const bfr = fs.readFileSync(tmname)
+        const bfr = fs.readFileSync(tmname).toString('base64')
 
         // console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
         let ok = false
@@ -266,6 +266,10 @@ async function testFilter(filter) {
                 } catch (error) {
 
                 }
+            }).catch(e=>{
+                if(!fs.existsSync(tmname))
+                console.log(`error , file not found for tesseract for file ${tmname}`);
+                return ''
             })
 
             if (text?.trim() == file.substring(0, 3)) {
