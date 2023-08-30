@@ -137,7 +137,7 @@ function generateMyFilterPermutations() {
 
         if (allowedForks === 0) {
             const currentCombination = (maincurrentCombination ? maincurrentCombination + ' ' : '') + value;
-            generateFilterPermutations(filterIndex, currentCombination);
+            generateFilterPermutations(filterIndex+1, currentCombination);
             process.send([]);
             // fs.writeFileSync(`combinations${Math.random().toString().replace(/\./, '')}.json`, '');
             // for (const combination of combinations) {
@@ -191,7 +191,7 @@ async function testFilter(filter) {
 
     let parallel = 3
     for (const model of models) {
-        console.log(`Testing ${completeNamesFilter} ${model}`);
+        // console.log(`Testing ${completeNamesFilter} ${model}`);
         const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
             let lockIndex = 0
             while (1 == 1) {
