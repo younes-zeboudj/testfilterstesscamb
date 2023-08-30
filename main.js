@@ -25,7 +25,7 @@ const filterRanges = {
         'toggle': true,
     },
     'hue': {
-        'min': 0,
+        'min': 10,
         'max': 100,
         'step': 10,
         'default': 0

@@ -4,12 +4,12 @@ const { Caman } = require('./caman.js');
 const order = ['saturation', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
 
 const filterRanges = {
-    // 'brightness': {
-    //     'min': -10,
-    //     'max': 10,
-    //     'step': 10,
-    //     'default': 0
-    // },
+    'brightness': {
+        'min': -15,
+        'max': 30,
+        'step': 30,
+        'default': 0
+    },
     'saturation': {
         'min': -15,
         'max': 30,
@@ -29,7 +29,7 @@ const filterRanges = {
         'toggle': true,
     },
     'hue': {
-        'min': 0,
+        'min': 10,
         'max': 100,
         'step': 10,
         'default': 0
@@ -48,7 +48,7 @@ const filterRanges = {
     'boxBlur': {},
     'threshold': {
         'min': 30,
-        'max': 200,
+        'max': 210,
         'step': 10,
         'default': 0
     },
@@ -86,20 +86,21 @@ async function generateFilterPermutations(filterIndex, currentCombination) {
 
         if (filter) {
             if (filter.min !== undefined && filter.max !== undefined && filter.step !== undefined) {
+
+                if (filter.toggle) {
+                    filterValues.push(``);
+                }
                 for (let value = filter.min; value <= filter.max; value += filter.step) {
                     filterValues.push(`${filterName.substring(0, 2)}${value}`);
                 }
 
-                if (filter.toggle) {
-                    filterValues.push(``);
-                }
             } else {
 
-                if (filter.toggle) {
+                if (filter.toggle)
                     filterValues.push(``);
-                } else {
-                    filterValues.push(`${filterName.substring(0, 2)}`)
-                }
+
+                filterValues.push(`${filterName.substring(0, 2)}`)
+
             }
         }
 
@@ -179,7 +180,7 @@ async function generateMyFilterPermutations() {
     }
 }
 
-const models = ['digits_comma', 'engBest', 'Fraktur_50000000.334_450937']
+const models = ['digits_comma', 'Fraktur_50000000.334_450937', 'engBest']
 
 
 generateMyFilterPermutations();
@@ -192,75 +193,69 @@ async function testFilter(filter) {
     // console.log(`Testing ${completeNamesFilter} ${'...'}`);
 
     let parallel = 3
-    for (const model of models) {
-        const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
-            let lockIndex = 0
-            for (let i = 0; i < 17 && 1 == 1; i++) {
-                if (!fs.existsSync(`lock${i}.lock`)) {
-                    fs.writeFileSync(`lock${i}.lock`, '')
-                    lockIndex = i
-                    break;
-                }
-
-                if (i === 16) {
-                    await new Promise(resolve => setTimeout(resolve, 1000))
-                    i = 0
-                }
+    const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
+        let lockIndex = 0
+        for (let i = 0; i < 50 && 1 == 1; i++) {
+            if (!fs.existsSync(`lock${i}.lock`)) {
+                fs.writeFileSync(`lock${i}.lock`, '')
+                lockIndex = i
+                break;
             }
 
+            if (i === 16) {
+                await new Promise(resolve => setTimeout(resolve, 1000))
+                i = 0
+            }
+        }
 
-            const filters = completeNamesFilter.split(/ +/).map(ff => {
-                return [ff.split('/')[0], ff.split('/')[1]]
-            })
 
-            const tmname = `./conv/` + file.split('.')[0] + `${Math.random().toString().replace(/\./, '')}.jpeg`
+        const filters = completeNamesFilter.split(/ +/).map(ff => {
+            return [ff.split('/')[0], ff.split('/')[1]]
+        })
 
-            // console.log(`Testing ${completeNamesFilter} Converting file ${file} to ${tmname} ${'...'}`);
+        const tmname = `./conv/` + file.split('.')[0] + `${Math.random().toString().replace(/\./, '')}.jpeg`
 
-            await new Promise(resolve => {
-                try {
-                    Caman(`./${file}`, function () {
-                        // console.log(`read file ${file} ${'...'}`);
-                        for (const f of filters) {
-                            if (f[1] === '')
-                                if (f[0])
-                                 try {
+        // console.log(`Testing ${completeNamesFilter} Converting file ${file} to ${tmname} ${'...'}`);
+
+        await new Promise(resolve => {
+            try {
+                Caman(`./${file}`, function () {
+                    // console.log(`read file ${file} ${'...'}`);
+                    for (const f of filters) {
+                        if (f[1] === '')
+                            if (f[0])
+                                try {
                                     this[f[0]]()
-                                 } catch (error) {
+                                } catch (error) {
                                     console.log(`error ${f[0]}`);
-                                 }
+                                }
                             else
                                 this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
-                        }
-    
-                        // console.log(`writing file ${tmname} ${'...'}`);
-    
-                        this.render(function () {
-                            this.save(tmname)
-                            resolve()
-                        })
+                    }
+
+                    // console.log(`writing file ${tmname} ${'...'}`);
+
+                    this.render(function () {
+                        this.save(tmname)
+                        resolve()
                     })
-                } catch (error) {
-                    console.log(`error ${error} for file ${file}`);
-                    resolve()
-                }
+                })
+            } catch (error) {
+                console.log(`error ${error} for file ${file}`);
+                resolve()
+            }
 
-            })
+        })
 
-            await new Promise(resolve => setTimeout(resolve, 1000))
-            if(!fs.existsSync(tmname)) return resolve(false)
-            const bfr = fs.readFileSync(tmname)
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        if (!fs.existsSync(tmname)) return resolve(false)
+        const bfr = fs.readFileSync(tmname)
 
-            // console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
+        // console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
+        let ok = false
+        for (const model of models) {
+
             const text = await recognize(bfr, model).finally(() => {
-
-
-                try {
-                    fs.unlinkSync(tmname)
-
-                } catch (error) {
-
-                }
 
                 try {
                     fs.unlinkSync(`lock${lockIndex}.lock`)
@@ -269,23 +264,34 @@ async function testFilter(filter) {
 
                 }
             })
-            resolve(text?.trim() == file.substring(0, 3))
-        }))
 
+            if (text?.trim() == file.substring(0, 3)) {
+                ok = true; break
+            }
 
-        const results = await Promise.all(ps)
-        console.log(`test done`);
-        const accuracy = results.filter(result => result).length / results.length
-        // console.log(`Accuracy: ${accuracy}`);
-        accuracyAll.push(accuracy)
-        if (accuracy >= 0.5) {
-            console.log(completeNamesFilter, model, accuracy)
-            if (!fs.existsSync('results.txt'))
-                fs.appendFileSync('results.txt', `${completeNamesFilter} ${model} ${accuracy}\n`)
         }
+        try {
+            fs.unlinkSync(tmname)
+
+        } catch (error) {
+
+        }
+        resolve(ok)
+
+    }))
+
+
+    const results = await Promise.all(ps)
+
+    const accuracy = results.filter(result => result).length / results.length
+    // console.log(`Accuracy: ${accuracy}`);
+
+
+    if (accuracy >= 0.5) {
+        console.log(completeNamesFilter, model, accuracy)
+        if (!fs.existsSync('results.txt'))
+            fs.appendFileSync('results.txt', `${completeNamesFilter} ${model} ${accuracy}\n`)
     }
-
-
 }
 
 
