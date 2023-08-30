@@ -59,7 +59,7 @@ const combinations = [];
 
 function startAllChildProcesses() {
     for (let i = 0; i < filters.length; i++) {
-        if (filters[i] !== 'brightness') {
+        if (filters[i] !== 'saturation') {
             continue;
         }
 
