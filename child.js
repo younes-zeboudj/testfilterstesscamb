@@ -1,4 +1,5 @@
 const createWorker = require('tesseract.js').createWorker;
+const { Caman } = require('./caman.js');
 
 const order = ['saturation', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
 
@@ -35,8 +36,8 @@ const filterRanges = {
     },
     'gamma': {
         'min': 1,
-        'max': 3,
-        'step': 2,
+        'max': 2,
+        'step':0.3,
         'toggle': true,
     },
     'sharpen': {
@@ -186,14 +187,42 @@ generateMyFilterPermutations();
 
 
 async function testFilter(filter) {
+    const completeNamesFilter = filter.split(' ').map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + '/' + filter.substring(2)).join(' ')
+
     let parallel = 3
     for (const model of models) {
         const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
             while (parallel <= 0) {
                 await new Promise(resolve => setTimeout(resolve, 1000))
             }
-            const bfr = fs.readFileSync(`./${file}`)
-            const text = await recognize(bfr, model).finally(() => parallel++)
+
+            parallel--
+
+            const filters = completeNamesFilter.split(' ').map(ff => {
+                return [ff.split('/')[0], parseInt(ff.split('/')[1])]
+            })
+
+            const tmname = `./` + file.split('.')[0] + `${Math.random().toString().replace(/\./, '')}.jpeg`
+
+            Caman(`./${file}`, function () {
+                for (const f of filters) {
+                    this[f[0]](f[1])
+                }
+
+                this.render(function () {
+                    this.save(tmname)
+                })
+            })
+
+            const bfr = fs.readFileSync(tmname)
+            const text = await recognize(bfr, model).finally(() => {
+                parallel++
+                try {
+                    fs.unlinkSync(tmname)
+                } catch (error) {
+                    
+                }
+            })
             resolve(text == file.substring(0, 3))
         }))
 
@@ -202,7 +231,6 @@ async function testFilter(filter) {
         const accuracy = results.filter(result => result).length / results.length
 
         if (accuracy >= 0.5) {
-            const completeNamesFilter = filter.split(' ').map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + filter.substring(2)).join(' ')
             console.log(completeNamesFilter, model, accuracy)
             if (!fs.existsSync('results.txt'))
                 fs.appendFileSync('results.txt', `${completeNamesFilter} ${model} ${accuracy}\n`)
