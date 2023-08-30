@@ -194,7 +194,7 @@ async function testFilter(filter) {
         console.log(`Testing ${completeNamesFilter} ${model}`);
         const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
             let lockIndex = 0
-            while (1==1) {
+            while (1 == 1) {
                 for (let i = 0; i < 17; i++) {
                     if (!fs.existsSync(`lock${i}.lock`)) {
                         fs.writeFileSync(`lock${i}.lock`, '')
@@ -206,14 +206,17 @@ async function testFilter(filter) {
             }
 
             const filters = completeNamesFilter.split(' ').map(ff => {
-                return [ff.split('/')[0], parseInt(ff.split('/')[1])]
+                return [ff.split('/')[0], ff.split('/')[1]]
             })
 
             const tmname = `./` + file.split('.')[0] + `${Math.random().toString().replace(/\./, '')}.jpeg`
 
             Caman(`./${file}`, function () {
                 for (const f of filters) {
-                    this[f[0]](f[1])
+                    if (f[1] === '')
+                        this[f[0]]()
+                    else
+                        this[f[0]](parseInt(f[1]))
                 }
 
                 this.render(function () {
@@ -234,9 +237,9 @@ async function testFilter(filter) {
 
                 try {
                     fs.unlinkSync(`lock${lockIndex}.lock`)
-                    
+
                 } catch (error) {
-                    
+
                 }
             })
             resolve(text?.trim() == file.substring(0, 3))
@@ -244,7 +247,7 @@ async function testFilter(filter) {
 
 
         const results = await Promise.all(ps)
-            console.log(`test done`);
+        console.log(`test done`);
         const accuracy = results.filter(result => result).length / results.length
         console.log(`Accuracy: ${accuracy}`);
         if (accuracy >= 0.5) {
