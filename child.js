@@ -218,31 +218,37 @@ async function testFilter(filter) {
             // console.log(`Testing ${completeNamesFilter} Converting file ${file} to ${tmname} ${'...'}`);
 
             await new Promise(resolve => {
-                Caman(`./${file}`, function () {
-                    console.log(`read file ${file} ${'...'}`);
-                    for (const f of filters) {
-                        if (f[1] === '')
-                            if (f[0])
-                             try {
-                                this[f[0]]()
-                             } catch (error) {
-                                console.log(`error ${f[0]}`);
-                             }
-                        else
-                            this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
-                    }
-
-                    console.log(`writing file ${tmname} ${'...'}`);
-
-                    this.render(function () {
-                        this.save(tmname)
-                        resolve()
+                try {
+                    Caman(`./${file}`, function () {
+                        console.log(`read file ${file} ${'...'}`);
+                        for (const f of filters) {
+                            if (f[1] === '')
+                                if (f[0])
+                                 try {
+                                    this[f[0]]()
+                                 } catch (error) {
+                                    console.log(`error ${f[0]}`);
+                                 }
+                            else
+                                this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
+                        }
+    
+                        console.log(`writing file ${tmname} ${'...'}`);
+    
+                        this.render(function () {
+                            this.save(tmname)
+                            resolve()
+                        })
                     })
-                })
+                } catch (error) {
+                    console.log(`error ${error} for file ${file}`);
+                    resolve()
+                }
 
             })
 
             await new Promise(resolve => setTimeout(resolve, 1000))
+            if(!fs.existsSync(tmname)) return resolve(false)
             const bfr = fs.readFileSync(tmname)
 
             console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);

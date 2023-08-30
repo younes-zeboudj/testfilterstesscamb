@@ -3374,3 +3374,5 @@
   });
 
 }).call(this);
+
+// exports.Caman('')
