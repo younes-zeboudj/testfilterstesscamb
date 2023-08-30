@@ -1,4 +1,4 @@
-const order = ['saturation', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
+const order = ['brightness', 'saturation', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
 const filterRanges = {
     'brightness': {
         'min': -15,
@@ -61,7 +61,7 @@ function startAllChildProcesses() {
     const child = fork('./child.js', [
         JSON.stringify({
             filterIndex: 0,
-            allowedForks: 1
+            allowedForks: 7
         })
     ], { execArgv: ['--max-old-space-size=13000'] });
 

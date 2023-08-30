@@ -1,7 +1,7 @@
 const createWorker = require('tesseract.js').createWorker;
 const { Caman } = require('./caman.js');
 
-const order = ['saturation', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
+const order = ['brightness', 'saturation', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
 
 const filterRanges = {
     'brightness': {
@@ -127,8 +127,8 @@ async function generateMyFilterPermutations() {
         }
     } else {
         if (filter.toggle) {
-            filterValues.push(`${order[filterIndex].substring(0, 2)}`);
             filterValues.push(``);
+            filterValues.push(`${order[filterIndex].substring(0, 2)}`);
         } else {
             filterValues.push(`${order[filterIndex].substring(0, 2)}`)
         }
@@ -148,33 +148,25 @@ async function generateMyFilterPermutations() {
             // testFilter(currentCombination)
 
         } else {
-            let forked = 0
-            let myvalues = []
 
-            for (let i = filterRanges[order[filterIndex]].min; i <= filterRanges[order[filterIndex]].max; i += filterRanges[order[filterIndex]].step) {
+            const child = fork('./child.js', [
+                JSON.stringify({
+                    filterIndex: filterIndex + 1,
+                    maincurrentCombination: (maincurrentCombination ? maincurrentCombination + ' ' : '') + filterValues[i],
+                    allowedForks: allowedForks - 1
+                })
+            ]);
 
-                myvalues.push(`${order[filterIndex].substring(0, 2)}${i}`);
-            }
+            child.on('message', (message) => {
+                // combinations.push(...message)
+                // forked++
+                // console.log(`worker finished ${message}`);
 
-            for (let i = 0; i < myvalues.length; i++) {
-                const child = fork('./child.js', [
-                    JSON.stringify({
-                        filterIndex: filterIndex + 1,
-                        maincurrentCombination: (maincurrentCombination ? maincurrentCombination + ' ' : '') + myvalues[i],
-                        allowedForks: allowedForks - 1
-                    })
-                ]);
+                // if (forked === myvalues.length) {
 
-                child.on('message', (message) => {
-                    // combinations.push(...message)
-                    forked++
-                    // console.log(`worker finished ${message}`);
+                // }
+            });
 
-                    if (forked === myvalues.length) {
-
-                    }
-                });
-            }
         }
 
     }
