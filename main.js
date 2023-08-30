@@ -40,7 +40,7 @@ const filterRanges = {
         'toggle': true
     },
 
-    'greyScale': {},
+    'greyscale': {},
     'boxBlur': {},
     'threshold': {
         'min': 30,
@@ -54,7 +54,7 @@ const filterRanges = {
 
 const { fork } = require('child_process');
 const { fs } = require('fs');
-const filters = Object.keys(filterRanges).filter(filter => filter !== 'boxBlur' && filter !== 'greyScale' && filter !== 'threshold' && filter !== 'sharpen' && filter !== 'gamma' && filter !== 'hue');
+const filters = Object.keys(filterRanges).filter(filter => filter !== 'boxBlur' && filter !== 'greyscale' && filter !== 'threshold' && filter !== 'sharpen' && filter !== 'gamma' && filter !== 'hue');
 const combinations = [];
 
 function startAllChildProcesses() {

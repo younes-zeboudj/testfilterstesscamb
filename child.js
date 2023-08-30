@@ -44,7 +44,7 @@ const filterRanges = {
         'toggle': true
     },
 
-    'greyScale': {},
+    'greyscale': {},
     'boxBlur': {},
     'threshold': {
         'min': 30,
@@ -241,6 +241,8 @@ async function testFilter(filter) {
                 })
 
             })
+
+            await new Promise(resolve => setTimeout(resolve, 1000))
             const bfr = fs.readFileSync(tmname)
 
             console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
@@ -285,7 +287,7 @@ async function testFilter(filter) {
 
 
 const recognize = async (bfr, model) => {
-    const worker = await tess.createWorker({ langPath: __dirname, gzip: false, })
+    const worker = await createWorker({ langPath: __dirname, gzip: false, })
     await worker.loadLanguage(model)
     await worker.initialize(model)
     await worker.setParameters({
