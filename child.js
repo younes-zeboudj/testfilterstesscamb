@@ -209,7 +209,7 @@ async function testFilter(filter) {
             }
 
 
-            const filters = completeNamesFilter.split(' ').map(ff => {
+            const filters = completeNamesFilter.split(/ +/).map(ff => {
                 return [ff.split('/')[0], ff.split('/')[1]]
             })
 

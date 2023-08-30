@@ -1,11 +1,11 @@
 const order = ['saturation', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
 const filterRanges = {
-    // 'brightness': {
-    //     'min': -10,
-    //     'max': 10,
-    //     'step': 10,
-    //     'default': 0
-    // },
+    'brightness': {
+        'min': -15,
+        'max': 30,
+        'step': 30,
+        'default': 0
+    },
     'saturation': {
         'min': -15,
         'max': 30,
@@ -44,7 +44,7 @@ const filterRanges = {
     'boxBlur': {},
     'threshold': {
         'min': 30,
-        'max': 200,
+        'max': 210,
         'step': 10,
         'default': 0
     },

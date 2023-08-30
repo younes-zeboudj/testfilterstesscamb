@@ -270,9 +270,11 @@
       Log.debug("Initializing for NodeJS");
       this.image = Canvas.loadImage(this.initObj).then(function (image) {
         _this.image = image;
+        _this.canvas = new Canvas.Canvas(image.width, image.height);
+
         _this.finishInit()
       }).catch(function (err) {
-        console.log(`Error loading image ${this.initObj}: ${err}`);
+        console.log(`Error loading image ${_this.initObj}: ${err}`);
       })
 
     };
@@ -3371,5 +3373,3 @@
   });
 
 }).call(this);
-
-// exports.Caman('')
