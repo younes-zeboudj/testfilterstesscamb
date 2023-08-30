@@ -80,7 +80,7 @@ async function generateFilterPermutations(filterIndexlocal, currentCombination) 
         }
 
         for (const value of thresholdValues) {
-            const updatedCombination = currentCombination + ` sh gr bo ${value}`;
+            const updatedCombination = currentCombination + ` gr bo ${value}`;
             // combinations.push(updatedCombination);
 
             await testFilter(updatedCombination).catch(console.log)
@@ -208,8 +208,8 @@ async function testFilter(filter) {
 
     let parallel = 1
     const nfiles = fs.readdirSync('./').filter(file => file.includes('jpeg')).length
-    let done= false
-    let fails= 0
+    let done = false
+    let fails = 0
     const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
 
         while (parallel > 25) {
@@ -222,7 +222,7 @@ async function testFilter(filter) {
         }
 
         const filters = completeNamesFilter.split(/ +/).map(ff => {
-            return [ff.split('/')[0], ff.split('/')[1]]
+            return [ff.split('/')[0].trim(), ff.split('/')[1]]
         })
 
         const tmname = `./conv/` + file.split('.')[0] + `${Math.random().toString().replace(/\./, '')}${Date.now().toString()}.jpeg`
@@ -234,15 +234,17 @@ async function testFilter(filter) {
                 Caman(`./${file}`, function () {
                     // console.log(`read file ${file} ${'...'}`);
                     for (const f of filters) {
-                        if (f[1] === '')
+                        if (f[1] === '') {
                             if (f[0])
                                 try {
                                     this[f[0]]()
                                 } catch (error) {
                                     console.log(`error ${f[0]} : ${filter}`);
                                 }
-                            else
-                                this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
+                        } else {
+                            f[1] = f[1].trim()
+                            this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
+                        }
                     }
 
                     // console.log(`writing file ${tmname} ${'...'}`);
@@ -309,7 +311,7 @@ async function testFilter(filter) {
 
         }
         if (!ok) fails++
-        if (fails >= nfiles / 2) done= true
+        if (fails >= nfiles / 2) done = true
         resolve(ok)
         parallel--
 
