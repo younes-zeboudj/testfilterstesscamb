@@ -64,7 +64,7 @@ async function generateFilterPermutations(filterIndexlocal, currentCombination) 
     if (filterIndexlocal >= order.length) {
         const thresholdValues = []
 
-        for (let i = filterRanges['threshold'].min; i <= filterRanges['threshold'].max; i += filterRanges['threshold'].step) {
+        for (let i = filterRanges['threshold'].max; i >= filterRanges['threshold'].min; i -= filterRanges['threshold'].step) {
             thresholdValues.push(`th${i}`);
         }
 
@@ -89,7 +89,7 @@ async function generateFilterPermutations(filterIndexlocal, currentCombination) 
                 if (filter.toggle) {
                     filterValues.push(``);
                 }
-                for (let value = filter.min; value <= filter.max; value += filter.step) {
+                for (let value = filter.max; value >= filter.min; value -= filter.step) {
                     if (value === 0) {
                         filterValues.push(``);
                         continue;
@@ -129,7 +129,7 @@ async function generateMyFilterPermutations() {
     const filterValues = filter.values || [];
 
     if (filter.min !== undefined && filter.max !== undefined && filter.step !== undefined) {
-        for (let value = filter.min; value <= filter.max; value += filter.step) {
+        for (let value = filter.max; value >= filter.min; value -= filter.step) {
             if (value === 0) {
                 filterValues.push(``);
                 continue;

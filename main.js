@@ -15,13 +15,13 @@ const filterRanges = {
     'contrast': {
         'min': -60,
         'max': 60,
-        'step': 15,
+        'step': 20,
         'default': 0
     },
     'exposure': {
         'min': -25,
         'max': 25,
-        'step': 25,
+        'step': 50,
         'toggle': true,
     },
     'hue': {
@@ -43,9 +43,9 @@ const filterRanges = {
     'greyscale': {},
     'boxBlur': {},
     'threshold': {
-        'min': 30,
-        'max': 210,
-        'step': 10,
+        'min': 40,
+        'max': 200,
+        'step': 20,
         'default': 0
     },
 }
@@ -61,7 +61,7 @@ function startAllChildProcesses() {
     const child = fork('./child.js', [
         JSON.stringify({
             filterIndex: 0,
-            allowedForks: 6
+            allowedForks: 2
         })
     ], { execArgv: ['--max-old-space-size=13000'] });
 
