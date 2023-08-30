@@ -268,16 +268,13 @@
     Caman.prototype.initNode = function () {
       var _this = this;
       Log.debug("Initializing for NodeJS");
-      this.image = new Image();
-      this.image.onload = function () {
-        Log.debug("Image loaded. Width = " + (_this.imageWidth()) + ", Height = " + (_this.imageHeight()));
-        _this.canvas = new Canvas.Canvas(_this.imageWidth(), _this.imageHeight());
-        return _this.finishInit();
-      };
-      this.image.onerror = function (err) {
-        throw err;
-      };
-      return this.image.src = this.initObj;
+      this.image = Canvas.loadImage(this.initObj).then(function (image) {
+        _this.image = image;
+        _this.finishInit()
+      }).catch(function (err) {
+        console.log(`Error loading image ${this.initObj}: ${err}`);
+      })
+
     };
 
     Caman.prototype.initImage = function () {
@@ -1741,8 +1738,8 @@
         this.c.pixelData[i + 3] = Util.clampRGB(res.a);
       }
 
-        return this.blockFinished(bnum);
-      
+      return this.blockFinished(bnum);
+
     };
 
     Renderer.prototype.renderKernel = function (bnum, start, end) {
@@ -1777,9 +1774,9 @@
         this.modPixelData[i + 2] = Util.clampRGB(res.b);
         this.modPixelData[i + 3] = this.c.pixelData[i + 3];
       }
-   
-        return this.blockFinished(bnum);
-      
+
+      return this.blockFinished(bnum);
+
     };
 
     Renderer.prototype.blockFinished = function (bnum) {

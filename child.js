@@ -219,8 +219,7 @@ async function testFilter(filter) {
 
             await new Promise(resolve => {
                 try {
-                    const base64= `data:image/jpeg;base64,`+fs.readFileSync(file).toString('base64')
-                    Caman(base64, function () {
+                    Caman(`./${file}`, function () {
                         console.log(`read file ${file} ${'...'}`);
                         for (const f of filters) {
                             if (f[1] === '')
