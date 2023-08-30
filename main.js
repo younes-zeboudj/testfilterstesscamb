@@ -56,11 +56,14 @@ const fs = require('fs');
 const filters = Object.keys(filterRanges).filter(filter => filter !== 'boxBlur' && filter !== 'greyscale' && filter !== 'threshold' && filter !== 'sharpen' && filter !== 'gamma' && filter !== 'hue');
 const combinations = [];
 
+if(process.argv[2]) order= process.argv[2].split(',');
+
 function startAllChildProcesses() {
     const child = fork('./child.js', [
         JSON.stringify({
             filterIndex: 0,
-            allowedForks: 1
+            allowedForks: 1,
+            order,
         })
     ], { execArgv: ['--max-old-space-size=500000'], detached:false })
 

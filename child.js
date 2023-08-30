@@ -1,8 +1,6 @@
 const createWorker = require('tesseract.js').createWorker;
 const { Caman } = require('./caman.js');
 
-const order = ['saturation', 'brightness', 'hue', 'gamma', 'contrast']
-
 const filterRanges = {
     'brightness': {
         'min': -15,
@@ -56,7 +54,7 @@ const filterRanges = {
 
 const combinations = [];
 
-const { filterIndex, maincurrentCombination, allowedForks } = JSON.parse(process.argv[2]);
+const { filterIndex, maincurrentCombination, allowedForks, order } = JSON.parse(process.argv[2]);
 
 let accuracyAll = []
 let N = 0
