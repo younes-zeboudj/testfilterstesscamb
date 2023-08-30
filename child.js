@@ -59,7 +59,7 @@ const combinations = [];
 
 const { filterIndex, maincurrentCombination, allowedForks } = JSON.parse(process.argv[2]);
 
-let accuracyAll=[]
+let accuracyAll = []
 
 async function generateFilterPermutations(filterIndex, currentCombination) {
     if (filterIndex === order.length) {
@@ -137,7 +137,7 @@ async function generateMyFilterPermutations() {
 
         if (allowedForks === 0) {
             const currentCombination = (maincurrentCombination ? maincurrentCombination + ' ' : '') + value;
-            await generateFilterPermutations(filterIndex+1, currentCombination);
+            await generateFilterPermutations(filterIndex + 1, currentCombination);
             process.send(`acc : ${accuracyAll.slice(0, 10)}`)
             // fs.writeFileSync(`combinations${Math.random().toString().replace(/\./, '')}.json`, '');
             // for (const combination of combinations) {
@@ -189,22 +189,25 @@ generateMyFilterPermutations();
 
 async function testFilter(filter) {
     const completeNamesFilter = filter.split(' ').map(filter => Object.keys(filterRanges).find(key => key.substring(0, 2) === filter.substring(0, 2)) + '/' + filter.substring(2)).join(' ')
-        console.log(`Testing ${completeNamesFilter} ${'...'}`);
+    console.log(`Testing ${completeNamesFilter} ${'...'}`);
 
     let parallel = 3
     for (const model of models) {
         const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
             let lockIndex = 0
-            while (1 == 1) {
-                for (let i = 0; i < 50; i++) {
-                    if (!fs.existsSync(`lock${i}.lock`)) {
-                        fs.writeFileSync(`lock${i}.lock`, '')
-                        lockIndex = i
-                        break;
-                    }
+            for (let i = 0; i < 17 && 1 == 1; i++) {
+                if (!fs.existsSync(`lock${i}.lock`)) {
+                    fs.writeFileSync(`lock${i}.lock`, '')
+                    lockIndex = i
+                    break;
                 }
-                await new Promise(resolve => setTimeout(resolve, 1000))
+
+                if (i === 16) {
+                    await new Promise(resolve => setTimeout(resolve, 1000))
+                    i = 0
+                }
             }
+
 
             const filters = completeNamesFilter.split(' ').map(ff => {
                 return [ff.split('/')[0], ff.split('/')[1]]
@@ -212,7 +215,7 @@ async function testFilter(filter) {
 
             const tmname = `./` + file.split('.')[0] + `${Math.random().toString().replace(/\./, '')}.jpeg`
 
-        console.log(`Testing ${completeNamesFilter} Converting file ${file} to ${tmname} ${'...'}`);
+            // console.log(`Testing ${completeNamesFilter} Converting file ${file} to ${tmname} ${'...'}`);
 
             Caman(`./${file}`, function () {
                 for (const f of filters) {
@@ -229,7 +232,7 @@ async function testFilter(filter) {
 
             const bfr = fs.readFileSync(tmname)
 
-            console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
+            // console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
             const text = await recognize(bfr, model).finally(() => {
 
 
