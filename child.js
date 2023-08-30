@@ -180,7 +180,7 @@ async function generateMyFilterPermutations() {
     }
 }
 
-const models = ['digits_comma', 'Fraktur_50000000.334_450937', 'engBest']
+const models = ['digits_comma', 'Fraktur_50000000.334_450937']
 
 
 generateMyFilterPermutations();
@@ -195,14 +195,14 @@ async function testFilter(filter) {
     let parallel = 3
     const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
         let lockIndex = 0
-        for (let i = 0; i < 50 && 1 == 1; i++) {
+        for (let i = 0; i < 30 && 1 == 1; i++) {
             if (!fs.existsSync(`lock${i}.lock`)) {
                 fs.writeFileSync(`lock${i}.lock`, '')
                 lockIndex = i
                 break;
             }
 
-            if (i === 50) {
+            if (i === 30) {
                 await new Promise(resolve => setTimeout(resolve, 1000))
                 i = 0
             }
@@ -287,10 +287,10 @@ async function testFilter(filter) {
     // console.log(`Accuracy: ${accuracy}`);
 
 
-    if (accuracy >= 0.5) {
+    if (accuracy >= 0.6) {
         console.log(completeNamesFilter, accuracy)
-        if (!fs.existsSync('results.txt'))
-            fs.appendFileSync('results.txt', `${completeNamesFilter} ${model} ${accuracy}\n`)
+        // if (!fs.existsSync('results.txt'))
+        //     fs.appendFileSync('results.txt', `${completeNamesFilter} ${model} ${accuracy}\n`)
     }
 }
 
