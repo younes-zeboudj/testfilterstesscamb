@@ -205,7 +205,7 @@ async function testFilter(filter) {
             return [ff.split('/')[0], ff.split('/')[1]]
         })
 
-        const tmname = `./conv/` + file.split('.')[0] + `${Math.random().toString().replace(/\./, '')}.jpeg`
+        const tmname = `./conv/` + file.split('.')[0] + `${Math.random().toString().replace(/\./, '')}${Date.now().toString()}.jpeg`
 
         // console.log(`Testing ${completeNamesFilter} Converting file ${file} to ${tmname} ${'...'}`);
 
