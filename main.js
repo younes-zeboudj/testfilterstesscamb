@@ -52,7 +52,7 @@ const filterRanges = {
 
 
 
-const { fork } = require('child_process');
+const { fork, execSync } = require('child_process');
 const fs = require('fs');
 const filters = Object.keys(filterRanges).filter(filter => filter !== 'boxBlur' && filter !== 'greyscale' && filter !== 'threshold' && filter !== 'sharpen' && filter !== 'gamma' && filter !== 'hue');
 const combinations = [];
@@ -73,6 +73,9 @@ function startAllChildProcesses() {
     });
 }
 
+if(!fs.existsSync('./conv'))
 fs.mkdirSync('./conv');
+
+execSync('rm lock*')
 
 startAllChildProcesses();
