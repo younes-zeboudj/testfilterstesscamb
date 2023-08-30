@@ -1389,7 +1389,8 @@
       this.canvas.width = this.c.dimensions.width;
       this.canvas.height = this.c.dimensions.height;
       this.context = this.canvas.getContext('2d');
-      this.context.createImageData(this.canvas.width, this.canvas.height);
+      this.context.createImageData(th
+        is.canvas.width, this.canvas.height);
       this.imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
       this.pixelData = this.imageData.data;
     }
@@ -1740,11 +1741,9 @@
         this.c.pixelData[i + 2] = Util.clampRGB(res.b);
         this.c.pixelData[i + 3] = Util.clampRGB(res.a);
       }
-      if (Caman.NodeJS) {
-        return Fiber["yield"](bnum);
-      } else {
+
         return this.blockFinished(bnum);
-      }
+      
     };
 
     Renderer.prototype.renderKernel = function (bnum, start, end) {
@@ -1779,11 +1778,9 @@
         this.modPixelData[i + 2] = Util.clampRGB(res.b);
         this.modPixelData[i + 3] = this.c.pixelData[i + 3];
       }
-      if (Caman.NodeJS) {
-        return Fiber["yield"](bnum);
-      } else {
+   
         return this.blockFinished(bnum);
-      }
+      
     };
 
     Renderer.prototype.blockFinished = function (bnum) {
