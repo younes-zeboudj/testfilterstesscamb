@@ -61,7 +61,7 @@ function startAllChildProcesses() {
     const child = fork('./child.js', [
         JSON.stringify({
             filterIndex: 0,
-            allowedForks: 6
+            allowedForks: 3
         })
     ], { execArgv: ['--max-old-space-size=500000'], detached:true }).unref()
 
