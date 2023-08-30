@@ -59,7 +59,7 @@ const { filterIndex, maincurrentCombination, allowedForks, order } = JSON.parse(
 let accuracyAll = []
 let N = 0
 async function generateFilterPermutations(filterIndexlocal, currentCombination) {
-    console.log(`generating permutation N ${N++} ${filterIndexlocal} ${currentCombination}`);
+    // console.log(`generating permutation N ${N++} ${filterIndexlocal} ${currentCombination}`);
     if (filterIndexlocal >= order.length) {
         const thresholdValues = []
 
