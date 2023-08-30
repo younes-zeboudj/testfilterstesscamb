@@ -246,14 +246,14 @@ async function testFilter(filter) {
         for (const model of models) {
 
             let lockIndex = 0
-            for (let i = 0; i < 30 && 1 == 1; i++) {
+            for (let i = 0; i < 15 && 1 == 1; i++) {
                 if (!fs.existsSync(`lock${i}.lock`)) {
                     fs.writeFileSync(`lock${i}.lock`, '')
                     lockIndex = i
                     break;
                 }
 
-                if (i === 30) {
+                if (i === 15) {
                     await new Promise(resolve => setTimeout(resolve, 1000))
                     i = 0
                 }
