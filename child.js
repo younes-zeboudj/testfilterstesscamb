@@ -162,7 +162,7 @@ async function generateMyFilterPermutations() {
                 JSON.stringify({
                     filterIndex: filterIndex + 1,
                     maincurrentCombination: (maincurrentCombination ? maincurrentCombination + ' ' : '') + value,
-                    allowedForks: allowedForks - 1
+                    allowedForks: allowedForks - 1, order
                 })
             ], { execArgv: ['--max-old-space-size=500000'], detached: false })
 
