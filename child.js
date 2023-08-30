@@ -212,6 +212,8 @@ async function testFilter(filter) {
 
             const tmname = `./` + file.split('.')[0] + `${Math.random().toString().replace(/\./, '')}.jpeg`
 
+        console.log(`Testing ${completeNamesFilter} Converting file ${file} to ${tmname} ${'...'}`);
+
             Caman(`./${file}`, function () {
                 for (const f of filters) {
                     if (f[1] === '')
@@ -226,6 +228,8 @@ async function testFilter(filter) {
             })
 
             const bfr = fs.readFileSync(tmname)
+
+            console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
             const text = await recognize(bfr, model).finally(() => {
 
 
