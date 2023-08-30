@@ -152,7 +152,7 @@ async function generateMyFilterPermutations() {
             const child = fork('./child.js', [
                 JSON.stringify({
                     filterIndex: filterIndex + 1,
-                    maincurrentCombination: (maincurrentCombination ? maincurrentCombination + ' ' : '') + filterValues[i],
+                    maincurrentCombination: (maincurrentCombination ? maincurrentCombination + ' ' : '') + value,
                     allowedForks: allowedForks - 1
                 })
             ]);
