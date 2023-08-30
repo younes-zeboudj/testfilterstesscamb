@@ -270,14 +270,14 @@ async function testFilter(filter) {
 
 
             let lockIndex = 0
-            for (let i = 0; i < 55 && 1 == 1; i++) {
+            for (let i = 0; i < 100 && 1 == 1; i++) {
                 if (!fs.existsSync(`lock${i}.lock`)) {
                     fs.writeFileSync(`lock${i}.lock`, '')
                     lockIndex = i
                     break;
                 }
 
-                if (i === 55) {
+                if (i === 100) {
                     await new Promise(resolve => setTimeout(resolve, 1000))
                     i = 0
                 }
