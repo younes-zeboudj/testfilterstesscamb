@@ -31,7 +31,7 @@ const filterRanges = {
         'step': 20,
         'default': 0
     },
-    // 'gamma': {
+    'gamma': {
         'min': 1,
         'max': 2,
         'step': 1,
