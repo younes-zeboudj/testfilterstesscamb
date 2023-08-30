@@ -60,8 +60,8 @@ const { filterIndex, maincurrentCombination, allowedForks } = JSON.parse(process
 
 let accuracyAll = []
 
-async function generateFilterPermutations(filterIndex, currentCombination) {
-    if (filterIndex >= order.length) {
+async function generateFilterPermutations(filterIndexlocal, currentCombination) {
+    if (filterIndexlocal >= order.length) {
         const thresholdValues = []
 
         for (let i = filterRanges['threshold'].min; i <= filterRanges['threshold'].max; i += filterRanges['threshold'].step) {
@@ -78,7 +78,7 @@ async function generateFilterPermutations(filterIndex, currentCombination) {
         return;
     }
 
-    for (let i = filterIndex; i < order.length; i++) {
+    for (let i = filterIndexlocal; i < order.length; i++) {
         const filterName = order[i];
         const filter = filterRanges[filterName];
         const filterValues = filter.values || [];
@@ -230,7 +230,7 @@ async function testFilter(filter) {
                                 try {
                                     this[f[0]]()
                                 } catch (error) {
-                                    console.log(`error ${f[0]} : ${completeNamesFilter}`);
+                                    console.log(`error ${f[0]} : ${filter}`);
                                 }
                             else
                                 this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
