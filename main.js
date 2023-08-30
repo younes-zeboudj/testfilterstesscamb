@@ -33,7 +33,7 @@ const filterRanges = {
     'gamma': {
         'min': 1,
         'max': 2,
-        'step':0.3
+        'step':0.3,
         'toggle': true,
     },
     'sharpen': {
