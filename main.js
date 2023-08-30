@@ -63,7 +63,7 @@ function startAllChildProcesses() {
             filterIndex: 0,
             allowedForks: 1
         })
-    ], { execArgv: ['--max-old-space-size=13000'] });
+    ], { execArgv: ['--max-old-space-size=50000'] });
 
     child.on('message', (workerCombinations) => {
         // console.log(`Worker finished : ${workerCombinations}`);
