@@ -197,19 +197,6 @@ async function testFilter(filter) {
 
     let parallel = 3
     const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
-        let lockIndex = 0
-        for (let i = 0; i < 30 && 1 == 1; i++) {
-            if (!fs.existsSync(`lock${i}.lock`)) {
-                fs.writeFileSync(`lock${i}.lock`, '')
-                lockIndex = i
-                break;
-            }
-
-            if (i === 30) {
-                await new Promise(resolve => setTimeout(resolve, 1000))
-                i = 0
-            }
-        }
 
 
         const filters = completeNamesFilter.split(/ +/).map(ff => {
@@ -258,7 +245,26 @@ async function testFilter(filter) {
         let ok = false
         for (const model of models) {
 
-            const text = await recognize(bfr, model).finally(() => {
+            let lockIndex = 0
+            for (let i = 0; i < 30 && 1 == 1; i++) {
+                if (!fs.existsSync(`lock${i}.lock`)) {
+                    fs.writeFileSync(`lock${i}.lock`, '')
+                    lockIndex = i
+                    break;
+                }
+
+                if (i === 30) {
+                    await new Promise(resolve => setTimeout(resolve, 1000))
+                    i = 0
+                }
+            }
+
+
+            const text = await recognize(bfr, model).catch(e => {
+                if (!fs.existsSync(tmname))
+                    console.log(`error , file not found for tesseract for file ${tmname}`);
+                return ''
+            }).finally(() => {
 
                 try {
                     fs.unlinkSync(`lock${lockIndex}.lock`)
@@ -266,10 +272,6 @@ async function testFilter(filter) {
                 } catch (error) {
 
                 }
-            }).catch(e=>{
-                if(!fs.existsSync(tmname))
-                console.log(`error , file not found for tesseract for file ${tmname}`);
-                return ''
             })
 
             if (text?.trim() == file.substring(0, 3)) {
