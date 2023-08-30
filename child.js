@@ -195,7 +195,7 @@ async function testFilter(filter) {
         const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
             let lockIndex = 0
             while (1==1) {
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 17; i++) {
                     if (!fs.existsSync(`lock${i}.lock`)) {
                         fs.writeFileSync(`lock${i}.lock`, '')
                         lockIndex = i
