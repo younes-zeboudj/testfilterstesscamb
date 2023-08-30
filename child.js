@@ -202,7 +202,7 @@ async function testFilter(filter) {
     let fails= 0
     const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
 
-        while (parallel > 1) {
+        while (parallel > 6) {
             await new Promise(resolve => setTimeout(resolve, 1000))
         }
         parallel++
@@ -252,7 +252,7 @@ async function testFilter(filter) {
 
         let ok = false
         for (const model of models) {
-            
+
 
             let lockIndex = 0
             for (let i = 0; i < 55 && 1 == 1; i++) {
