@@ -1,7 +1,7 @@
 const createWorker = require('tesseract.js').createWorker;
 const { Caman } = require('./caman.js');
 
-const order = ['brightness', 'saturation', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
+const order = ['saturation', 'brightness', 'contrast', 'exposure', 'hue', 'gamma', 'sharpen']
 
 const filterRanges = {
     'brightness': {
