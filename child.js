@@ -221,7 +221,11 @@ async function testFilter(filter) {
                 Caman(`./${file}`, function () {
                     for (const f of filters) {
                         if (f[1] === '')
-                            this[f[0]]()
+                            if (f[0])
+                                this[f[0]]()
+                            else {
+                                console.log(`!!! ${f[0]} is not a valid filter`);
+                            }
                         else
                             this[f[0]](f[1].includes('.') ? parseFloat(f[1]) : parseInt(f[1]))
                     }
@@ -235,7 +239,7 @@ async function testFilter(filter) {
             })
             const bfr = fs.readFileSync(tmname)
 
-            // console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
+            console.log(`Testing ${completeNamesFilter} Recognizing file ${file} ${'...'}`);
             const text = await recognize(bfr, model).finally(() => {
 
 
