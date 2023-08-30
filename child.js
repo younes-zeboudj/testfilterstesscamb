@@ -37,7 +37,7 @@ const filterRanges = {
     'gamma': {
         'min': 1,
         'max': 2,
-        'step':0.3,
+        'step': 0.3,
         'toggle': true,
     },
     'sharpen': {
@@ -192,11 +192,17 @@ async function testFilter(filter) {
     let parallel = 3
     for (const model of models) {
         const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
-            while (parallel <= 0) {
+            let lockIndex = 0
+            while (1==1) {
+                for (let i = 0; i < 10; i++) {
+                    if (!fs.existsSync(`lock${i}.lock`)) {
+                        fs.writeFileSync(`lock${i}.lock`, '')
+                        lockIndex = i
+                        break;
+                    }
+                }
                 await new Promise(resolve => setTimeout(resolve, 1000))
             }
-
-            parallel--
 
             const filters = completeNamesFilter.split(' ').map(ff => {
                 return [ff.split('/')[0], parseInt(ff.split('/')[1])]
@@ -216,9 +222,18 @@ async function testFilter(filter) {
 
             const bfr = fs.readFileSync(tmname)
             const text = await recognize(bfr, model).finally(() => {
-                parallel++
+
+
                 try {
                     fs.unlinkSync(tmname)
+
+                } catch (error) {
+
+                }
+
+                try {
+                    fs.unlinkSync(`lock${lockIndex}.lock`)
+                    
                 } catch (error) {
                     
                 }
@@ -229,7 +244,7 @@ async function testFilter(filter) {
 
         const results = await Promise.all(ps)
         const accuracy = results.filter(result => result).length / results.length
-
+        console.log(`Accuracy: ${accuracy}`);
         if (accuracy >= 0.5) {
             console.log(completeNamesFilter, model, accuracy)
             if (!fs.existsSync('results.txt'))
