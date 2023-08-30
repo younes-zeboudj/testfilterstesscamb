@@ -45,7 +45,7 @@ const filterRanges = {
     'threshold': {
         'min': 30,
         'max': 210,
-        'step': 10,
+        'step': 15,
         'default': 0
     },
 }
