@@ -188,11 +188,11 @@ generateMyFilterPermutations();
 async function testFilter(filter) {
     let parallel = 3
     for (const model of models) {
-        const ps = fs.readdirSync('./images').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
+        const ps = fs.readdirSync('./').filter(file => file.includes('jpeg')).map(file => new Promise(async (resolve, reject) => {
             while (parallel <= 0) {
                 await new Promise(resolve => setTimeout(resolve, 1000))
             }
-            const bfr = fs.readFileSync(`./images/${file}`)
+            const bfr = fs.readFileSync(`./${file}`)
             const text = await recognize(bfr, model).finally(() => parallel++)
             resolve(text == file.substring(0, 3))
         }))
